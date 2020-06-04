@@ -1,0 +1,11 @@
+{
+  "name": "gauge-demo",
+  "version": "0.0.1",
+  "description": "Starter template for writing JavaScript tests for Gauge",
+  "scripts": {
+    "test": "gauge run specs/"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}

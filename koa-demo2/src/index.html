@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>接口测试</title>
+<script src="http://127.0.0.1:3001/getJquery"></script>
+</head>
+<body>
+    <button onclick="openCmd('notepad')">打开记事本</button><br>
+	<button onclick="openCmd('mspaint')">打开画画板</button><br>
+	<button onclick="openCmd('start npm run gauge')" >测试运行gauge</button><br>
+	<input id="cmdName" type="text"/><button onclick="openMyCmd()">打开测试命令</button>
+	
+<script>
+function openCmd(cmd){
+	$.post("http://127.0.0.1:3001/exectest",
+    {
+        "name":"execu",
+        "cmd":cmd
+    },
+    function(data,status){
+       console.log("数据: \n" + data + "\n状态: " + status);
+    });
+}
+function openMyCmd(){
+	var myCmd = $("#cmdName").val();
+	openCmd(myCmd);
+}
+</script>
+</body>
+</html>

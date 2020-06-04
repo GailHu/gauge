@@ -1,0 +1,5 @@
+# package-lock
+package-lock.json
+
+# JavaScript node dependencies
+node_modules
