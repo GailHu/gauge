@@ -4,7 +4,6 @@
   "description": "调用gauge进行测试",
   "main": "index.js",
   "scripts": {
-    "test": "babel-node ./src/test.js",
     "start": "babel-node  ./src/index.js",
     "gauge": "gauge run specs -d ../gauge-demo/"
   },

@@ -4,7 +4,6 @@
   "description": "暴露一个固定的接口，返回json",
   "main": "index.js",
   "scripts": {
-    "test": "babel-node  ./src/test.js",
     "start": "babel-node  ./src/index.js"
   },
   "author": "",
