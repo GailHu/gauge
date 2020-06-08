@@ -1,23 +1,47 @@
+import Koa from 'koa';
+import Router from '@koa/router';
+import bodyParser from 'koa-bodyparser';
+import fs from 'fs';
+import util from 'util';
+import {exec} from 'child_process';
+
+/*
 const Koa = require('koa');
 const Router = require('koa-router');
-const parser = require('koa-parser');
+const bodyParser = require('koa-parser');
 const fs = require('fs');
 var exec = require('child_process').exec;
+*/
 
 const app = new Koa();
 const router = new Router();
-const errMessage = "请求参数错误，未能执行测试命令!";
+app.use(bodyParser());
+app.use(router.routes(),router.allowedMethods());
 
-// post method ;  parse json;  cmd;
+// const errMessage = "请求参数错误，未能执行测试命令!";
+// 访问根目录，返回index.html
 router.get('/',function(ctx,next){
 	ctx.response.type = 'html';
 	ctx.response.body = fs.createReadStream('src/index.html');
 });
+
+// 放开jquery的访问权限
 router.get('/getJquery',function(ctx,next){
 	ctx.response.type = 'js';
 	ctx.response.body = fs.createReadStream('src/jquery.min.js');
 });
 
+const execute = util.promisify(exec)
+router.post('/exectest',async (ctx,next)=>{
+	const {cmd} = ctx.request.body;
+	const {stdout, stderr} = await execute(cmd)
+	console.log("------------stdout["+stdout+"]-----stderr["+stderr+"]---");
+	//下面这两行加上会报错，正常执行后stdout和stderr都是空
+	//stderr && ctx.status = 500
+	//ctx.body = {stdout, stderr}
+});
+
+/*
 router.post('/exectest',function(ctx,next){
 	var jsonObj = getJsonBody(ctx);
 	if(jsonObj=='null'){
@@ -31,9 +55,6 @@ router.post('/exectest',function(ctx,next){
 		ctx.body = errMessage;
 	}
 });
-
-app.use(parser());
-app.use(router.routes(),router.allowedMethods());
 
 let getJsonBody =((ctx)=>{
 	if (ctx.request.body !== undefined) {
@@ -57,7 +78,7 @@ function execute(cmd){
 	});
 	return result;
 }
-
+*/
 app.listen(3001, () => {
   console.log('http://127.0.0.1:3001');
 });
